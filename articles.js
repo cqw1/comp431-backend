@@ -24,7 +24,7 @@ const getArticles = (req, res) => {
             return el.id == req.params.id;
         }))
     } else {
-        res.send(articles)
+        res.send({'articles': articles})
     }
 }
 
