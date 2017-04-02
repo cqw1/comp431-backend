@@ -1,70 +1,74 @@
 
 const getHeadlines = (req, res) => {
-    headlines = []
+    headlines = [];
 
     if (req.params.user) {
         users = req.params.user.split(",");
         users.forEach(function(user) {
-            headlines.push({ username: user, headline: user + ' headline'})
+            headlines.push({ username: user, headline: user + ' headline'});
         })
+    } else {
+        headlines.push({ username: 'stubbed username', headline: 'stubbed headline' });
     }
 
-    headlines.push({ username: 'default', headline: 'default_headline' })
-
-    res.send({ headlines })
+    res.send({ headlines });
 }
 
 const putHeadline = (req, res) => {
-    res.send({ username: 'default', headline: req.body.headline })
+    res.send({ username: 'stubbed username', headline: req.body.headline });
 }
 
 const getEmail = (req, res) => {
-    var username = 'default';
+    var username = 'stubbed username';
     if (req.params.user) {
         username = req.params.user;
     }
-    res.send({ username, email: 'emailAddress' })
+    res.send({ username, email: 'emailAddress' });
 }
 
 const putEmail = (req, res) => {
-    res.send({ username: 'default', email: req.body.email })
+    res.send({ username: 'stubbed username', email: req.body.email });
 }
 
 const getZipcode = (req, res) => {
-    var username = 'default';
+    var username = 'stubbed username';
 
     if (req.params.user) {
         username = req.params.user;
     }
 
-    res.send({ username, zipcode: 'zipcode' })
+    res.send({ username, zipcode: 'zipcode' });
 }
 
 const putZipcode = (req, res) => {
-    res.send({ username: 'default', zipcode: req.body.zipcode })
+    res.send({ username: 'stubbed username', zipcode: req.body.zipcode });
 }
 
 const getAvatars = (req, res) => {
-    avatars = []
+    avatars = [];
 
     if (req.params.user) {
         users = req.params.user.split(",");
         users.forEach(function(user) {
-            avatars.push({ username: user, avatar: user + ' avatar'})
+            avatars.push({ username: user, avatar: user + ' avatar'});
         })
+    } else {
+        avatars.push({ username: 'stubbed username', avatar: 'stubbed avatar' });
     }
 
-    avatars.push({ username: 'default', avatar: 'default avatar' })
-
-    res.send({ avatars })
+    res.send({ avatars });
 }
 
 const putAvatar = (req, res) => {
-    res.send({ username: 'default', avatar: req.body.avatar })
+    res.send({ username: 'stubbed username', avatar: 'stubbed avatar' });
+}
+
+const getDob = (req, res) => {
+    res.send({ username: 'stubbed username', dob: 1491169198471});
 }
 
 const index = (req, res) => {
-     res.send({ hello: 'world' })
+     res.send({ hello: 'world' });
 }
 
 module.exports = app => {
@@ -76,5 +80,6 @@ module.exports = app => {
      app.put('/zipcode', putZipcode),
      app.get('/avatars/:user?', getAvatars),
      app.put('/avatar', putAvatar),
+     app.get('/dob', getDob),
      app.get('/', index)
 }
