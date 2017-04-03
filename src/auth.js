@@ -1,11 +1,7 @@
-const md5 = require('md5')
+const md5 = require('md5');
+const index = require('../index');
 
-const userObj = {
-    'username': 'stubbed username',
-    'salt': '',
-    'hash': '',
-};
-exports.userObj = userObj;
+var exports =  module.exports = {};
 
 let sessions = {};
 
@@ -19,20 +15,20 @@ const postLogin = (req, res) => {
     }
 
     /*
-    var userObj = getUser(username);
-    if (!userObj || userObj.password !== password) {
+    var index.user = getUser(username);
+    if (!index.user || index.user.password !== password) {
         res.sendStatus(400);
         return;
     }
     */
 
-    if (userObj.username != req.body.username) {
+    if (index.user.username != req.body.username) {
         res.sendStatus(401);
         return;
     }
 
-    var hash = md5(req.body.password + userObj.salt);
-    if (userObj.hash != hash) {
+    var hash = md5(req.body.password + index.user.salt);
+    if (index.user.hash != hash) {
         res.sendStatus(401);
         return;
     }
@@ -40,7 +36,7 @@ const postLogin = (req, res) => {
     sessions[req.body.username] = req.body.username;
 
     // cookie lasts for 1 hour
-    //res.cookie(cookieKey, generateCode(userObj),
+    //res.cookie(cookieKey, generateCode(index.user),
     res.cookie('sessionId', req.body.username,
             {maxAge: 3600 * 1000, httpOnly: true});
 
@@ -49,10 +45,10 @@ const postLogin = (req, res) => {
 }
 
 const postRegister = (req, res) => {
-    userObj.username = req.body.username;
+    index.user.username = req.body.username;
     var salt = 'salty';
-    userObj.salt = salt;
-    userObj.hash = md5(req.body.password + salt);
+    index.user.salt = salt;
+    index.user.hash = md5(req.body.password + salt);
 
     var msg = {username: req.body.username, result: 'success'};
     res.send(msg);
@@ -64,16 +60,16 @@ const putLogout = (req, res) => {
 
 const putPassword = (req, res) => {
     const msg = {
-        username: userObj.username,
+        username: index.user.username,
         status: 'will not change',
     }
 
     res.send(msg);
 }
 
-module.exports = (app) => {
-	app.post('/register', postRegister),
-	app.post('/login', postLogin),
-	app.put('/logout', putLogout),
-	app.put('/password', putPassword)
+exports.endpoints = function(app) {
+    app.post('/register', postRegister),
+    app.post('/login', postLogin),
+    app.put('/logout', putLogout),
+    app.put('/password', putPassword)
 }

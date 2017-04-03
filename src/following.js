@@ -1,3 +1,5 @@
+const index = require('../index');
+
 const sampleFollowing = [
     'john',
     'ann',
@@ -5,7 +7,7 @@ const sampleFollowing = [
 ];
 
 const getFollowing = (req, res) => {
-    let username = 'stubbed username';
+    let username = index.user.username;
     if (req.params.user) {
         username = req.params.user;
     }
@@ -20,7 +22,7 @@ const getFollowing = (req, res) => {
 
 const putFollowing = (req, res) => {
     const msg = {
-        username: 'stubbed username',
+        username: index.user.username,
         following: [req.params.user, ...sampleFollowing]
     };
 
@@ -33,14 +35,16 @@ const deleteFollowing = (req, res) => {
     })
 
     const msg = {
-        username: 'stubbed username',
+        username: index.user.username,
         following: deleted,
     };
 
     res.send(msg);
 }
 
-module.exports = (app) => {
+var exports =  module.exports = {};
+
+exports.endpoints = function(app) {
 	app.get('/following/:user?', getFollowing),
 	app.put('/following/:user', putFollowing),
 	app.delete('/following/:user', deleteFollowing)

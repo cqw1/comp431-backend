@@ -1,56 +1,57 @@
-let nextArticleId = 4;
-let nextCommentId = 1;
+const index = require('../index');
 
 const sampleArticle = {
-    '_id': 1,
+    '_id': 0,
     'text': 'stubbed article.',
-    'date': '2015-08-20T15:10:38.309Z',
+    'date': new Date(),
     'img': null,
     'comments': [],
-    'author': 'stubbed john',
+    'author': index.user.username,
 };
 
 const sampleComment = {
-    'commentId': 1,
-    'author': 'stubbed john',
-    'date': '2015-08-20T15:10:38.309Z',
+    'commentId': 0,
+    'author': index.user.username,
+    'date': new Date(),
     'text': 'stubbed comment.',
 };
 
 let articles = [
     {
-        '_id': 1,
+        '_id': 0,
         'text': 'stubbed article.',
-        'date': '2015-08-20T15:10:38.309Z',
+        'date': new Date(),
         'img': null,
         'comments': [],
-        'author': 'stubbed john',
+        'author': index.user.username,
+    },
+    {
+        '_id': 1,
+        'text': 'stubbed article.',
+        'date': new Date(),
+        'img': null,
+        'comments': [],
+        'author': index.user.username,
     },
     {
         '_id': 2,
         'text': 'stubbed article.',
-        'date': '2015-08-20T15:10:38.309Z',
+        'date': new Date(),
         'img': null,
         'comments': [],
-        'author': 'stubbed ann',
-    },
-    {
-        '_id': 3,
-        'text': 'stubbed article.',
-        'date': '2015-08-20T15:10:38.309Z',
-        'img': null,
-        'comments': [],
-        'author': 'stubbed joe',
+        'author': index.user.username,
     },
 ];
 
 const getArticles = (req, res) => {
     if (req.params.id) {
-        res.send(articles.filter(function(el) {
-            return el._id == req.params.id || el.author == req.params.id;
-        }))
+        res.send({
+            'articles': articles.filter(function(el) {
+                return el._id == req.params.id || el.author == req.params.id;
+            })
+        });
     } else {
-        res.send({'articles': articles})
+        res.send({'articles': articles});
     }
 }
 
@@ -67,10 +68,10 @@ const putArticles = (req, res) => {
 
     if (req.body.commentId == -1) {
         article.comments.push(Object.assign({}, sampleComment, {
-            'commentId': nextCommentId,
+            'commentId': article.comments.length,
             'text': req.body.text,
+            'date': new Date(),
         }))
-        nextCommentId += 1;
     } else {
         article.text = req.body.text;
     }
@@ -80,19 +81,21 @@ const putArticles = (req, res) => {
 
 const postArticle = (req, res) => {
     const newArticle = Object.assign({}, sampleArticle, {
-        '_id': nextArticleId,
+        '_id': articles.length,
         'text': req.body.text,
+        'date': new Date(),
     })
     articles.push(newArticle)
 
-    nextArticleId += 1
-
-	res.send(newArticle)
+	res.send({
+        'articles': [newArticle],
+    })
 }
 
-module.exports = (app) => {
+var exports =  module.exports = {};
+
+exports.endpoints = function(app) {
 	app.get('/articles/:id*?', getArticles),
 	app.put('/articles/:id', putArticles),
 	app.post('/article', postArticle)
 }
-

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "test": "mocha --opts mocha.opts *.spec.js"
+    "test": "mocha --opts mocha.opts src/**/*.spec.js"
   },
   "keywords": [],
   "author": "",
