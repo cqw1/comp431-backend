@@ -1,5 +1,23 @@
 const index = require('../index');
 
+const getHeadline = (req, res) => {
+    headlines = [];
+
+    if (req.params.user == index.user.username || !req.params.user) {
+        headlines.push({ 
+            username: index.user.username, 
+            headline: index.profile.headline 
+        });
+    } else {
+        headlines.push({ 
+            username: req.params.user, 
+            headline: req.params.user + ' stub headline'
+        });
+    }
+
+    res.send({headlines});
+}
+
 const getHeadlines = (req, res) => {
     headlines = [];
 
@@ -82,6 +100,7 @@ const getIndex = (req, res) => {
 var exports =  module.exports = {};
 
 exports.endpoints = function(app) {
+    app.get('/headline/:user?', getHeadline),
     app.get('/headlines/:user?', getHeadlines),
     app.put('/headline', putHeadline),
     app.get('/email/:user?', getEmail),
