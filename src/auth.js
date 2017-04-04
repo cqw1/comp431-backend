@@ -22,6 +22,7 @@ const postLogin = (req, res) => {
     }
     */
 
+    /*
     if (index.user.username != req.body.username) {
         res.sendStatus(401);
         return;
@@ -39,6 +40,7 @@ const postLogin = (req, res) => {
     //res.cookie(cookieKey, generateCode(index.user),
     res.cookie('sessionId', req.body.username,
             {maxAge: 3600 * 1000, httpOnly: true});
+    */
 
     var msg = {username: req.body.username, result: 'success'};
     res.send(msg);

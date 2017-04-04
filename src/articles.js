@@ -51,7 +51,7 @@ const getArticles = (req, res) => {
             })
         });
     } else {
-        res.send({'articles': articles});
+        res.send({articles});
     }
 }
 
@@ -66,17 +66,30 @@ const putArticles = (req, res) => {
         article = filteredArticles[0];
     }
 
-    if (req.body.commentId == -1) {
-        article.comments.push(Object.assign({}, sampleComment, {
-            'commentId': article.comments.length,
-            'text': req.body.text,
-            'date': new Date(),
-        }))
+    if (req.body.commentId != undefined) {
+        if (req.body.commentId == -1) {
+            article.comments.push(Object.assign({}, sampleComment, {
+                'commentId': article.comments.length,
+                'text': req.body.text,
+                'date': new Date(),
+            }))
+        } else {
+            let filteredComment = article.comments.filter(function(comment) {
+                return comment.commentId == req.body.commentId;
+            })
+
+            let comment;
+            if (filteredComment.length > 0) {
+                comment = filteredComment[0];
+            }
+
+            comment.text = req.body.text;
+        }
     } else {
         article.text = req.body.text;
     }
 
-    res.send(articles);
+    res.send({articles});
 }
 
 const postArticle = (req, res) => {

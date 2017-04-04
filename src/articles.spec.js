@@ -73,7 +73,7 @@ describe('Validate article functionality', () => {
 
                     let postedArticle = body.articles.filter(function(obj) {
                         return obj._id == postedId;
-                    })
+                    });
 
                     expect(postedArticle.length).to.be.eql(1);
                 })
@@ -90,7 +90,8 @@ describe('Validate article functionality', () => {
         resource('GET', 'articles')
         .then(body => {
             expect(body.articles.length).to.be.at.least(3);
-            targetId = body.articles[Math.floor(Math.random() * body.articles.length)]._id;
+            targetId = body.articles[Math.floor(
+                    Math.random() * body.articles.length)]._id;
 
             resource('GET', 'articles/' + targetId)
             .then(body => {
@@ -112,46 +113,100 @@ describe('Validate article functionality', () => {
         .catch(done)
 	}, 500)
 
-    /*
 	it('should post, then update the article', (done) => {
         let articleId;
 
-        fetch(url("/article"), {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'text': 'original'})
-        })
-        .then(res => {
-            expect(res.status).to.eql(200);
-            return res.json();
-        })
+        resource('POST', 'article', {'text': 'original'})
         .then(body => {
             expect(body).to.be.ok;
             expect(body.articles.length).to.be.eql(1);
             expect(body.articles[0].text).to.be.eql('original');
 
-            articleId= body.articles[0]._id;
+            articleId = body.articles[0]._id;
 
-            fetch(url("/article"), {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({'text': 'two'})
-            })
-            .then(res => {
-                expect(res.status).to.eql(200);
-                return res.json();
-            })
+            resource('PUT', 'articles/' + articleId, {'text': 'modified'})
             .then(body => {
                 expect(body).to.be.ok;
-                expect(body.articles.length).to.be.eql(1);
-                expect(body.articles[0].text).to.be.eql('two');
-
-                expect(body.articles[0]._id).to.be.eql(firstId + 1);
+                expect(body.articles.length).to.be.at.least(1);
+                let postedArticle = body.articles.filter(function(article) {
+                    return article._id == articleId;
+                });
+                expect(postedArticle.length).to.be.eql(1);
+                expect(postedArticle[0].text).to.be.eql('modified');
             })
             .then(done)
             .catch(done)
         })
 
 	}, 500)
-    */
+
+	it('should post a new comment, then edit it', (done) => {
+        let articleId;
+        let commentId;
+        let commentText;
+        let newCommentText;
+
+        resource('GET', 'articles')
+        .then(body => {
+            // Choosing a random article to post a comment on.
+            expect(body.articles.length).to.be.at.least(3);
+            articleId = body.articles[Math.floor(
+                    Math.random() * body.articles.length)]._id;
+
+            commentText = Date.now();
+
+            resource('PUT', 'articles/' + articleId, {
+                'text': commentText,
+                'commentId': -1
+            })
+            .then(body => {
+                // Posting a new comment and saving its id
+                expect(body.articles.length).to.be.at.least(1);
+
+                let postedArticle = body.articles.filter(function(article) {
+                    return article._id == articleId;
+                })
+                expect(postedArticle.length).to.be.eql(1);
+                expect(postedArticle[0].comments.length).to.be.at.least(1);
+
+                let postedComment = postedArticle[0].comments.filter(
+                    function(comment) {
+                        return comment.text == commentText;
+                    }
+                );
+                expect(postedComment.length).to.be.eql(1);
+
+                commentId = postedComment[0].commentId;
+
+                newCommentText = Date.now();
+
+                resource('PUT', 'articles/' + articleId, {
+                    'text': newCommentText,
+                    commentId
+                })
+                .then(body => {
+                    // Update the comment's text
+                    let postedArticle = body.articles.filter(
+                        function(article) {
+                            return article._id == articleId;
+                        }
+                    );
+                    expect(postedArticle.length).to.be.eql(1);
+                    expect(postedArticle[0].comments.length).to.be.at.least(1);
+
+                    let postedComment = postedArticle[0].comments.filter(
+                        function(comment) {
+                            return comment.text == newCommentText;
+                        }
+                    );
+                    expect(postedComment.length).to.be.eql(1);
+
+                })
+                .then(done)
+                .catch(done)
+
+            })
+        })
+
+	}, 500)
 });
