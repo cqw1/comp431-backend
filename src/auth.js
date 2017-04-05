@@ -47,10 +47,12 @@ const postLogin = (req, res) => {
 }
 
 const postRegister = (req, res) => {
+    /*
     index.user.username = req.body.username;
     var salt = 'salty';
     index.user.salt = salt;
     index.user.hash = md5(req.body.password + salt);
+    */
 
     var msg = {username: req.body.username, result: 'success'};
     res.send(msg);

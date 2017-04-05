@@ -14,12 +14,14 @@ describe('Validate profile functionality', () => {
 	it('should update a headline and verify it changed', (done) => {
         let originalHeadline;
 
-        reqource('GET', 'headlines')
+        resource('GET', 'headlines')
         .then(body => {
             expect(body.headlines.length).to.be.eql(1);
             originalHeadline = body.headlines[0].headline;
 
-            resource('PUT', 'headline', {headline: originalHeadline + ' revamped'})
+            resource('PUT', 'headline', {
+                headline: originalHeadline + ' revamped'
+            })
             .then(body => {
                 expect(body).to.ok;
                 expect(body.headline).to.be.eql(originalHeadline + ' revamped');
