@@ -1,30 +1,38 @@
 
 > stub@1.0.0 test /home/cwang/comp431-backend
-> mocha --opts mocha.opts src/**/*.spec.js "xunit"
+> mocha --opts mocha.opts src/**/*.spec.js "--reporter" "xunit"
 
-
-[0m[0m
-[31m  1) Uncaught error outside test suite[0m
-
-[92m [0m[32m 0 passing[0m[90m (6ms)[0m
-[31m  1 failing[0m
-
-[0m  1)  Uncaught error outside test suite:
-[0m[31m     Uncaught Error: listen EADDRINUSE :::3000[0m[90m
-      at Object.exports._errnoException (util.js:1022:11)
-      at exports._exceptionWithHostPort (util.js:1045:20)
-      at Server._listen2 (net.js:1259:14)
-      at listen (net.js:1295:10)
-      at Server.listen (net.js:1391:5)
-      at EventEmitter.listen (node_modules/express/lib/application.js:618:24)
-      at Object.<anonymous> (index.js:72:20)
-      at require (internal/module.js:20:19)
-      at Object.<anonymous> (src/articles.spec.js:6:15)
-      at require (internal/module.js:20:19)
-      at Array.forEach (native)
-      at run (bootstrap_node.js:394:7)
-      at startup (bootstrap_node.js:149:9)
-      at bootstrap_node.js:509:3
-[0m
-
-
+Server listening at http://:::3000
+<testsuite name="Mocha Tests" tests="31" failures="0" errors="0" skipped="0" timestamp="Wed, 05 Apr 2017 18:41:53 GMT" time="0.16">
+<testcase classname="Validate article functionality" name="should give me three or more articles" time="0.034"/>
+<testcase classname="Validate article functionality" name="should add two articles with successive article ids, and return the article each time" time="0.024"/>
+<testcase classname="Validate article functionality" name="should add one article" time="0.007"/>
+<testcase classname="Validate article functionality" name="should return an article with a specified id" time="0.006"/>
+<testcase classname="Validate article functionality" name="should return nothing for an invalid id" time="0.001"/>
+<testcase classname="Validate article functionality" name="should post, then update the article" time="0.006"/>
+<testcase classname="Validate article functionality" name="should post a new comment, then edit it" time="0.007"/>
+<testcase classname="Validate authentication functionality" name="should POST login" time="0.005"/>
+<testcase classname="Validate authentication functionality" name="should PUT logout" time="0.002"/>
+<testcase classname="Validate authentication functionality" name="should POST register" time="0.002"/>
+<testcase classname="Validate authentication functionality" name="should PUT password" time="0.004"/>
+<testcase classname="Validate following functionality" name="should GET following" time="0.003"/>
+<testcase classname="Validate following functionality" name="should GET following for a user" time="0.002"/>
+<testcase classname="Validate following functionality" name="should PUT following user" time="0.004"/>
+<testcase classname="Validate following functionality" name="should DELETE following user" time="0.004"/>
+<testcase classname="Validate profile functionality" name="should update a headline and verify it changed" time="0.004"/>
+<testcase classname="Validate profile functionality" name="should GET headline" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should GET headline for a user" time="0.003"/>
+<testcase classname="Validate profile functionality" name="should GET headlines" time="0.003"/>
+<testcase classname="Validate profile functionality" name="should GET headlines for a user" time="0.005"/>
+<testcase classname="Validate profile functionality" name="should PUT headline" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should GET email" time="0.003"/>
+<testcase classname="Validate profile functionality" name="should GET email for a user" time="0.001"/>
+<testcase classname="Validate profile functionality" name="should PUT email" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should GET zipcode" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should GET zipcode for a user" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should PUT zipcode" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should GET dob" time="0.001"/>
+<testcase classname="Validate profile functionality" name="should GET avatars" time="0.001"/>
+<testcase classname="Validate profile functionality" name="should GET avatars for a user" time="0.002"/>
+<testcase classname="Validate profile functionality" name="should PUT avatar" time="0.002"/>
+</testsuite>

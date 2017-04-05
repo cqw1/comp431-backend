@@ -41,15 +41,12 @@ exports.resource = resource;
 const app = express();
 
 var cors = function(req, res, next) {
-    console.log('cors');
-
     res.header('Access-Control-Allow-Origin', req.get('origin'));
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
     if (req.method == 'OPTIONS') {
-        console.log('options');
         res.status(200);
     }    
     next();
